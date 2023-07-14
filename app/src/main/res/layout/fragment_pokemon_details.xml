@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/v_header"
+        android:layout_width="match_parent"
+        android:layout_height="344dp"
+        android:background="@drawable/curved_shape"
+        android:backgroundTint="@color/dragon_light_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_pokemon_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/label_pokemon_name"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintStart_toStartOf="@id/v_header"
+        app:layout_constraintTop_toTopOf="@id/v_header" />
+
+    <TextView
+        android:id="@+id/tv_pokemon_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/label_pokemon_number"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@id/v_header"
+        app:layout_constraintTop_toTopOf="@id/v_header" />
+
+    <ImageView
+        android:id="@+id/iv_pokemon"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/dratini"
+        app:layout_constraintBottom_toBottomOf="@id/v_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_pokemon_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/format_pokemon_type"
+        android:backgroundTint="@color/dragon_color"
+        android:paddingStart="38dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="38dp"
+        android:paddingBottom="4dp"
+        android:text="@string/label_dragon"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_pokemon_second_type"
+        app:layout_constraintStart_toStartOf="@id/iv_pokemon"
+        app:layout_constraintTop_toBottomOf="@id/iv_pokemon" />
+
+    <TextView
+        android:id="@+id/tv_pokemon_second_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/format_pokemon_type"
+        android:backgroundTint="@color/dragon_color"
+        android:paddingStart="38dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="38dp"
+        android:paddingBottom="4dp"
+        android:text="@string/label_dragon"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/iv_pokemon"
+        app:layout_constraintStart_toEndOf="@id/tv_pokemon_type"
+        app:layout_constraintTop_toBottomOf="@id/iv_pokemon" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Info"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_species"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="64dp"
+                android:text="@string/species"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_species_value"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+            <TextView
+                android:id="@+id/tv_species_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dratini"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_species"
+                app:layout_constraintStart_toStartOf="@id/tv_height_value" />
+
+            <TextView
+                android:id="@+id/tv_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Height"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/tv_species"
+                app:layout_constraintTop_toBottomOf="@id/tv_species" />
+
+            <TextView
+                android:id="@+id/tv_height_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45m"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_height"
+                app:layout_constraintStart_toStartOf="@id/tv_species_value" />
+
+            <TextView
+                android:id="@+id/tv_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Weight"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/tv_height"
+                app:layout_constraintTop_toBottomOf="@id/tv_height" />
+
+            <TextView
+                android:id="@+id/tv_weight_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.4"
+                app:layout_constraintBottom_toBottomOf="@id/tv_weight"
+                app:layout_constraintStart_toStartOf="@id/tv_height_value" />
+
+            <TextView
+                android:id="@+id/tv_genders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Genders"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/tv_weight"
+                app:layout_constraintTop_toBottomOf="@id/tv_weight" />
+
+            <TextView
+                android:id="@+id/tv_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60%"
+                app:layout_constraintBottom_toBottomOf="@id/tv_genders"
+                app:layout_constraintStart_toStartOf="@id/tv_weight_value" />
+
+            <TextView
+                android:id="@+id/tv_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="40%"
+                app:layout_constraintBottom_toBottomOf="@id/tv_genders"
+                app:layout_constraintStart_toEndOf="@id/tv_male" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

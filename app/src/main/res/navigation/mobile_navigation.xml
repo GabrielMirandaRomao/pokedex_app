@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/poke_dex">
+
+    <fragment
+        android:id="@+id/poke_dex"
+        android:name="com.example.pokedex_android.ui.home.HomeFragment"
+        android:label="@string/pokedex"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_pokemonFragment_to_pokemonDetailFragment"
+            app:destination="@id/pokemon_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/poke_balls"
+        android:name="com.example.pokedex_android.ui.gallery.GalleryFragment"
+        android:label="@string/poke_ball"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/berry"
+        android:name="com.example.pokedex_android.ui.slideshow.SlideshowFragment"
+        android:label="@string/berry"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/games"
+        android:name="com.example.pokedex_android.ui.games.GamesTitleFragment"
+        android:label="@string/games"
+        tools:layout="@layout/fragment_games_titles" />
+
+    <fragment
+        android:id="@+id/pokemon_detail"
+        android:name="com.example.pokedex_android.ui.pokemonDetail.PokemonFragmentDetail"
+        android:label="Details"
+        tools:layout="@layout/fragment_pokemon_details">
+        <argument
+            android:name="pokemon_info"
+            app:argType="com.example.pokedex_android.domain.model.OnePokemonResponse" />
+    </fragment>
+
+</navigation>

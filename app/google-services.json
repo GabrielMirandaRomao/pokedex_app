@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1033767537492",
+    "project_id": "fir-crud-39c40",
+    "storage_bucket": "fir-crud-39c40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033767537492:android:4d2d757a9cfc99c8d496c1",
+        "android_client_info": {
+          "package_name": "com.example.pokedex_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033767537492-8rh2hjs2li06f7md2152806ltm25lrm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx2xsgs1Pz8a0s3V6q8uf5C339g5aRFZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033767537492-8rh2hjs2li06f7md2152806ltm25lrm8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
