@@ -19,4 +19,12 @@
     <string name="label_dragon">Dragon</string>
     <string name="label_pokemon_name">Dratini</string>
     <string name="label_pokemon_number">#147</string>
+    <string name="info_label">Info</string>
+    <string name="image_description">Pokemon image</string>
+    <string name="label_pokemon_height">Height</string>
+    <string name="label_pokemon_weight">Weight</string>
+    <string name="label_pokemon_genders">Genders</string>
+    <string name="label_percentage">60%</string>
+    <string name="label_height_value">45m</string>
+    <string name="label_weight_value">5.4</string>
 </resources>

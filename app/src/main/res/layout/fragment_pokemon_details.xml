@@ -44,7 +44,8 @@
         android:src="@drawable/dratini"
         app:layout_constraintBottom_toBottomOf="@id/v_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/image_description" />
 
     <TextView
         android:id="@+id/tv_pokemon_type"
@@ -100,7 +101,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Info"
+                android:text="@string/info_label"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -121,7 +122,7 @@
                 android:id="@+id/tv_species_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dratini"
+                android:text="@string/label_pokemon_name"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_species"
                 app:layout_constraintStart_toStartOf="@id/tv_height_value" />
@@ -131,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Height"
+                android:text="@string/label_pokemon_height"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/tv_species"
                 app:layout_constraintTop_toBottomOf="@id/tv_species" />
@@ -140,7 +141,7 @@
                 android:id="@+id/tv_height_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="45m"
+                android:text="@string/label_height_value"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_height"
                 app:layout_constraintStart_toStartOf="@id/tv_species_value" />
@@ -150,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Weight"
+                android:text="@string/label_pokemon_weight"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/tv_height"
                 app:layout_constraintTop_toBottomOf="@id/tv_height" />
@@ -159,7 +160,7 @@
                 android:id="@+id/tv_weight_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5.4"
+                android:text="@string/label_weight_value"
                 app:layout_constraintBottom_toBottomOf="@id/tv_weight"
                 app:layout_constraintStart_toStartOf="@id/tv_height_value" />
 
@@ -168,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Genders"
+                android:text="@string/label_pokemon_genders"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/tv_weight"
                 app:layout_constraintTop_toBottomOf="@id/tv_weight" />
@@ -177,7 +178,7 @@
                 android:id="@+id/tv_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="60%"
+                android:text="@string/label_percentage"
                 app:layout_constraintBottom_toBottomOf="@id/tv_genders"
                 app:layout_constraintStart_toStartOf="@id/tv_weight_value" />
 
@@ -186,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="40%"
+                android:text="@string/label_percentage"
                 app:layout_constraintBottom_toBottomOf="@id/tv_genders"
                 app:layout_constraintStart_toEndOf="@id/tv_male" />
 
