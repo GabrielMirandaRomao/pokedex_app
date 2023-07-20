@@ -8,7 +8,7 @@ import retrofit2.http.Path
 
 interface IPokemonApiService {
 
-    @GET("pokemon?limit=151")
+    @GET("pokemon?limit=3")
     suspend fun getAllPokemons(
     ): Response<AllPokemonResponse>
 

@@ -4,9 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 data class StatsEntity(
-    val id: Int,
     val baseStat: Int,
-    val effort: Int,
-    val name: String,
-    val url: String
+    val effort: Int
 )

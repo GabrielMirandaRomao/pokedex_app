@@ -1,29 +1,61 @@
 package com.example.pokedex_android.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.load.engine.Resource
 import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
-import com.example.pokedex_android.repository.PokemonRepository
+import com.example.pokedex_android.data.repository.PokemonRepository
+import com.example.pokedex_android.domain.model.Pokemon
+import com.example.pokedex_android.domain.usecase.GetAllPokemonUseCase
+import com.example.pokedex_android.domain.usecase.SearchPokemonUseCase
+import com.example.pokedex_android.ui.state.ResponseViewState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getAllPokemonUseCase: GetAllPokemonUseCase,
+    private val searchPokemonUseCase: SearchPokemonUseCase
+)  : ViewModel() {
 
-    private val pokemonRepository: PokemonRepository = PokemonRepository()
+//    private val pokemonRepository: PokemonRepository = PokemonRepository()
 
-    private var _pokemonResponse = MutableLiveData<List<CompletePokemonResponse>>()
-    val pokemonResponse: LiveData<List<CompletePokemonResponse>> = _pokemonResponse
+//    private var _pokemonResponse = MutableLiveData<List<CompletePokemonResponse>>()
+//    val pokemonResponse: LiveData<List<CompletePokemonResponse>> = _pokemonResponse
+//
+//    fun getAllPokemon() {
+//        viewModelScope.launch {
+////            val response: List<Response<CompletePokemonResponse>> = pokemonRepository.getAllPokemons()
+////            _pokemonResponse.value = response.map {
+////                it.body()!!
+////            }
+//        }
+//    }
 
-    fun getAllPokemon() {
-        viewModelScope.launch {
-            val response: List<Response<CompletePokemonResponse>> = pokemonRepository.getAllPokemons()
-            if (response != null) {
-                _pokemonResponse.value = response.map {
-                    it.body()!!
-                }
-            }
+    private var _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
+    val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
+
+    private val _searchPokemon = MutableLiveData<LiveData<List<Pokemon>>>()
+    val searchPokemon: LiveData<LiveData<List<Pokemon>>> = _searchPokemon
+
+    init {
+        getAllPokemon()
+    }
+
+    private fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
+        _pokemonResponse.postValue(ResponseViewState.Loading())
+        getAllPokemonUseCase().onSuccess {
+            _pokemonResponse.postValue(ResponseViewState.Success(it))
+        }.onFailure {
+            _pokemonResponse.postValue(ResponseViewState.Error(it))
         }
+    }
+
+    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>> {
+        return searchPokemonUseCase.searchPokemonFromDatabase(pokemon)
     }
 }
