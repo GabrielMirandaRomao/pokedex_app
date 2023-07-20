@@ -1,7 +1,7 @@
 package com.example.pokedex_android.data.di.local
 
 import android.content.Context
-import com.dmribeiro.pokedex_app.data.repository.UserPreferencesRepository
+import com.example.pokedex_android.data.di.repository.UserPreferencesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -4,6 +4,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -27,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '18'
     }
     buildFeatures {
         viewBinding true
@@ -56,7 +57,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
 
     //okhttp
-    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
 
     // Serialization
@@ -79,6 +80,11 @@ dependencies {
     // Shimmer RecyclerView
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
     // Import Firebase
 //    implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
 //    implementation("com.google.firebase:firebase-analytics-ktx")
@@ -92,5 +98,9 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.5.2"
     implementation 'javax.inject:javax.inject:1'
+
+    // DataStore Preferences
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
 }

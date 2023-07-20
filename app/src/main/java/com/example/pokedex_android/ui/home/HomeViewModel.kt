@@ -12,11 +12,13 @@ import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.domain.usecase.GetAllPokemonUseCase
 import com.example.pokedex_android.domain.usecase.SearchPokemonUseCase
 import com.example.pokedex_android.ui.state.ResponseViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
+@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemonUseCase,
     private val searchPokemonUseCase: SearchPokemonUseCase
@@ -42,14 +44,12 @@ class HomeViewModel @Inject constructor(
     private val _searchPokemon = MutableLiveData<LiveData<List<Pokemon>>>()
     val searchPokemon: LiveData<LiveData<List<Pokemon>>> = _searchPokemon
 
-    init {
-        getAllPokemon()
-    }
 
-    private fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
+    fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
         _pokemonResponse.postValue(ResponseViewState.Loading())
         getAllPokemonUseCase().onSuccess {
             _pokemonResponse.postValue(ResponseViewState.Success(it))
+            Log.d("***ViewModel", _pokemonResponse.value.toString())
         }.onFailure {
             _pokemonResponse.postValue(ResponseViewState.Error(it))
         }

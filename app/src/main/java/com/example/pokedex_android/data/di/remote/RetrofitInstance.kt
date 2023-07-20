@@ -2,6 +2,10 @@ package com.example.pokedex_android.data.di.remote
 
 import com.example.pokedex_android.data.remote.service.IPokemonApiService
 import com.example.pokedex_android.util.Constants.Companion.BASE_URL
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,9 +13,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object RetrofitInstance {
 
     @Singleton
     @Provides
@@ -55,4 +60,16 @@ object NetworkModule {
     fun providePokemonApiService(retrofit: Retrofit): IPokemonApiService {
         return retrofit.create(IPokemonApiService::class.java)
     }
+
+//    private val retrofit_second_api by lazy {
+//        Retrofit.Builder()
+//            .baseUrl(BASE_SECOND_ENDPOINT_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(okHttpClient)
+//            .build()
+//    }
+//
+//    val apiTwo : IPokedevApiService by lazy {
+//        retrofit_second_api.create(IPokedevApiService::class.java)
+//    }
 }

@@ -3,7 +3,6 @@ package com.example.pokedex_android.data.remote.datasource
 import com.example.pokedex_android.data.remote.models.pokemonModel.AllPokemonResponse
 import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
 import com.example.pokedex_android.data.remote.service.IPokemonApiService
-import com.example.pokedex_android.data.remote.service.RetrofitInstance
 import retrofit2.Response
 import javax.inject.Inject
 

@@ -1,5 +1,6 @@
 package com.example.pokedex_android.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.pokedex_android.data.local.datasource.LocalDataSource
@@ -8,8 +9,6 @@ import com.example.pokedex_android.data.local.entities.toDomain
 import com.example.pokedex_android.data.local.entities.toEntity
 import com.example.pokedex_android.data.remote.datasource.RemoteDatasource
 import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
-import com.example.pokedex_android.data.remote.service.RetrofitInstance
-import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
 import com.example.pokedex_android.data.remote.models.pokemonModel.toDomain
 import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.domain.repository.Repository
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
-import retrofit2.Response
 import javax.inject.Inject
 
 class PokemonRepository @Inject constructor(
@@ -38,9 +36,16 @@ class PokemonRepository @Inject constructor(
 //        return RetrofitInstance.api.getPokemon(name)
 //    }
 
-    suspend fun getPokemonDev(name: String): Response<PokedevResponse> {
-        return RetrofitInstance.apiTwo.getPokeonInPokedev(name)
-    }
+//    suspend fun getPokemonDev(name: String): Response<PokedevResponse> {
+//        return RetrofitInstance.apiTwo.getPokeonInPokedev(name)
+//    }
+
+    // Sempre deve vir do banco
+    // Dar um request na api, popular o banco e em seguida a viewmodel recebe apenas do banco
+    // Verificar o tamanho do banco, comparar com
+    // if next != null
+    // chamar a url -> lista
+
 
     override suspend fun getAllPokemon(): List<Pokemon> {
         val localPokemon = localDataSource.getAllLocalPokemon()

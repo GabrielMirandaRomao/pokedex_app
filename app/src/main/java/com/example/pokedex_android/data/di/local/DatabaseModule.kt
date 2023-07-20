@@ -5,6 +5,11 @@ import androidx.room.Room
 import com.example.pokedex_android.data.local.database.PokemonDao
 import com.example.pokedex_android.data.local.database.PokemonDatabase
 import com.example.pokedex_android.util.Constants.Companion.POKEMON_DATABASE
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module

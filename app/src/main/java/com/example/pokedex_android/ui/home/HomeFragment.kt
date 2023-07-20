@@ -1,6 +1,7 @@
 package com.example.pokedex_android.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
 import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
@@ -27,14 +31,10 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        addObserve()
         setupRecyclerView()
         binding.llLoadingPokemons.visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-//        viewModel.getAllPokemon()
-        super.onResume()
+        viewModel.getAllPokemon()
+        addObserve()
     }
 
     private fun setupRecyclerView() {
@@ -43,10 +43,16 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.rvPokemonList.adapter = adapter
     }
 
-    private fun addObserve(pokemon: String){
-        val searchQuery = "%$pokemon%"
-        viewModel.searchPokemon(searchQuery).observe(this) { list ->
-            adapter.updatePokemon(list)
+    private fun addObserve(){
+//        val searchQuery = "%$pokemon%"
+//        viewModel.searchPokemon(searchQuery).observe(this) { list ->
+//            adapter.updatePokemon(list)
+//            binding.llLoadingPokemons.visibility = View.GONE
+//        }
+
+        viewModel.pokemonResponse.observe(viewLifecycleOwner){
+            Log.d("***Fragment", it.data.toString())
+            adapter.updatePokemon(it.data!!)
             binding.llLoadingPokemons.visibility = View.GONE
         }
 
@@ -58,14 +64,14 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
-            addObserve(query)
+            //addObserve(query)
         }
         return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
         if (newText != null) {
-            addObserve(newText)
+            //addObserve(newText)
         }
         return true
     }
