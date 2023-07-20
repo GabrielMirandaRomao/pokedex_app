@@ -16,9 +16,7 @@ import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(requireActivity().application)
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     private var adapter : PokemonHomeAdapter = PokemonHomeAdapter()
 

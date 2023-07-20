@@ -1,13 +1,12 @@
-package com.example.pokedex_android.data.local.entity
+package com.example.pokedex_android.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "abilities_table")
-data class AbilitiesEntity(
+@Entity(tableName = "species_table")
+data class SpeciesEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
     val url: String
 )
-
