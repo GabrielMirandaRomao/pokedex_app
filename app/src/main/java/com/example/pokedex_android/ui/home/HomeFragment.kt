@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.util.query
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
 import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter
+import com.example.pokedex_android.ui.state.ResponseViewState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -31,10 +36,15 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupRecyclerView()
         binding.llLoadingPokemons.visibility = View.VISIBLE
         viewModel.getAllPokemon()
-        addObserve()
+        setupRecyclerView()
+        requestData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllPokemon()
     }
 
     private fun setupRecyclerView() {
@@ -43,35 +53,49 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.rvPokemonList.adapter = adapter
     }
 
-    private fun addObserve(){
-//        val searchQuery = "%$pokemon%"
-//        viewModel.searchPokemon(searchQuery).observe(this) { list ->
-//            adapter.updatePokemon(list)
-//            binding.llLoadingPokemons.visibility = View.GONE
-//        }
-
-        viewModel.pokemonResponse.observe(viewLifecycleOwner){
-            Log.d("***Fragment", it.data.toString())
-            adapter.updatePokemon(it.data!!)
-            binding.llLoadingPokemons.visibility = View.GONE
+    private fun requestData() {
+        lifecycleScope.launch{
+            viewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is ResponseViewState.Success -> {
+                        response.data?.let {
+                            Log.d("***Home", it.toString())
+                            adapter.updatePokemon(it)
+                        }
+                        binding.llLoadingPokemons.visibility = View.GONE
+                    }
+                    is ResponseViewState.Error -> {
+                        response.let {
+                            binding.rvPokemonList.visibility = View.GONE
+                            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                    is ResponseViewState.Loading -> {
+                        binding.rvPokemonList.visibility = View.VISIBLE
+                    }
+                }
+            }
         }
+    }
 
-//        viewModel.pokemonResponse.observe(viewLifecycleOwner) {
-//            adapter.updatePokemon(it)
-//            binding.llLoadingPokemons.visibility = View.GONE
-//        }
+    private fun searchThroughDatabase(pokemon: String) {
+        val searchQuery = "%$pokemon%"
+        viewModel.searchPokemon(searchQuery).observe(this) { list ->
+            adapter.updatePokemon(list)
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
-            //addObserve(query)
+            searchThroughDatabase(query)
         }
         return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
         if (newText != null) {
-            //addObserve(newText)
+            searchThroughDatabase(newText)
         }
         return true
     }

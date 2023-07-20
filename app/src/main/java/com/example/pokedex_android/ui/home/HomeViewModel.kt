@@ -5,9 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.load.engine.Resource
-import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
-import com.example.pokedex_android.data.repository.PokemonRepository
 import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.domain.usecase.GetAllPokemonUseCase
 import com.example.pokedex_android.domain.usecase.SearchPokemonUseCase
@@ -23,20 +20,6 @@ class HomeViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemonUseCase,
     private val searchPokemonUseCase: SearchPokemonUseCase
 )  : ViewModel() {
-
-//    private val pokemonRepository: PokemonRepository = PokemonRepository()
-
-//    private var _pokemonResponse = MutableLiveData<List<CompletePokemonResponse>>()
-//    val pokemonResponse: LiveData<List<CompletePokemonResponse>> = _pokemonResponse
-//
-//    fun getAllPokemon() {
-//        viewModelScope.launch {
-////            val response: List<Response<CompletePokemonResponse>> = pokemonRepository.getAllPokemons()
-////            _pokemonResponse.value = response.map {
-////                it.body()!!
-////            }
-//        }
-//    }
 
     private var _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
     val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse

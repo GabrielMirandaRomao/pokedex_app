@@ -41,11 +41,11 @@
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="@string/image_description"
         android:src="@drawable/dratini"
         app:layout_constraintBottom_toBottomOf="@id/v_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/image_description" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_pokemon_type"
@@ -171,6 +171,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/label_pokemon_genders"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/tv_weight"
                 app:layout_constraintTop_toBottomOf="@id/tv_weight" />
 
@@ -179,6 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_percentage"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/tv_genders"
                 app:layout_constraintStart_toStartOf="@id/tv_weight_value" />
 
@@ -188,6 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/label_percentage"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/tv_genders"
                 app:layout_constraintStart_toEndOf="@id/tv_male" />
 

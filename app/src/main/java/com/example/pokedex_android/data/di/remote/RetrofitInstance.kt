@@ -61,15 +61,22 @@ object RetrofitInstance {
         return retrofit.create(IPokemonApiService::class.java)
     }
 
-//    private val retrofit_second_api by lazy {
-//        Retrofit.Builder()
+//    @Singleton
+//    @Provides
+//    fun provideRetrofitSecondInstance(
+//        gsonConverterFactory: GsonConverterFactory,
+//        okHttpClient: OkHttpClient
+//    ): Retrofit{
+//        return Retrofit.Builder()
 //            .baseUrl(BASE_SECOND_ENDPOINT_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
+//            .addConverterFactory(gsonConverterFactory)
 //            .client(okHttpClient)
 //            .build()
 //    }
 //
-//    val apiTwo : IPokedevApiService by lazy {
-//        retrofit_second_api.create(IPokedevApiService::class.java)
+//    @Singleton
+//    @Provides
+//    fun providePokedevApiService(retrofit: Retrofit): IPokedevApiService {
+//        return retrofit.create(IPokedevApiService::class.java)
 //    }
 }
