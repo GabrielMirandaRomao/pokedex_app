@@ -40,7 +40,7 @@
         tools:layout="@layout/fragment_pokemon_details">
         <argument
             android:name="pokemon_info"
-            app:argType="com.example.pokedex_android.domain.model.OnePokemonResponse" />
+            app:argType="com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse" />
     </fragment>
 
 </navigation>

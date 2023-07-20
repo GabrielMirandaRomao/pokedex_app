@@ -1,15 +1,14 @@
 package com.example.pokedex_android.repository
 
+import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
 import com.example.pokedex_android.data.remote.service.RetrofitInstance
-import com.example.pokedex_android.domain.model.OnePokemonResponse
-import com.example.pokedex_android.domain.modelPokedev.PokedevResponse
+import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
 import retrofit2.Response
-
 
 class PokemonRepository {
 
-    suspend fun getAllPokemons(): List<Response<OnePokemonResponse>> {
-        val pokemonList: List<Response<OnePokemonResponse>> =
+    suspend fun getAllPokemons(): List<Response<CompletePokemonResponse>> {
+        val pokemonList: List<Response<CompletePokemonResponse>> =
             RetrofitInstance.api.getAllPokemons().body()?.pokemonResponse!!.map {
                 getPokemon(it.name)
             }
@@ -17,7 +16,7 @@ class PokemonRepository {
         return pokemonList
     }
 
-    suspend fun getPokemon(name: String): Response<OnePokemonResponse> {
+    suspend fun getPokemon(name: String): Response<CompletePokemonResponse> {
         return RetrofitInstance.api.getPokemon(name)
     }
 

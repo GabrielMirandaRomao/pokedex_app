@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex_android.domain.modelPokedev.PokedevResponse
+import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
 import com.example.pokedex_android.repository.PokemonRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response

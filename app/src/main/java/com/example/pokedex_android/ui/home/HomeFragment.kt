@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pokedex_android.MainViewModel
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
 import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: HomeViewModel by viewModels()
+
     private var adapter : PokemonHomeAdapter = PokemonHomeAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -26,7 +26,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         addObserve()
         setupRecyclerView()
         binding.llLoadingPokemons.visibility = View.VISIBLE

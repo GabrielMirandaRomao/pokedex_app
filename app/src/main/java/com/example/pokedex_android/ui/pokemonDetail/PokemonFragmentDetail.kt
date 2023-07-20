@@ -1,8 +1,6 @@
 package com.example.pokedex_android.ui.pokemonDetail
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.pokedex_android.MainActivity
+import com.example.pokedex_android.ui.MainActivity
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentPokemonDetailsBinding
 import com.example.pokedex_android.util.setTypeBackground
