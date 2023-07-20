@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pokedex_android.MainViewModel
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
 import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter

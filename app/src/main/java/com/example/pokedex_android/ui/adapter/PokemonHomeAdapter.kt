@@ -7,14 +7,14 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
 import com.example.pokedex_android.databinding.PokemonItemBinding
-import com.example.pokedex_android.domain.model.OnePokemonResponse
 import com.example.pokedex_android.ui.home.HomeFragmentDirections
 import com.example.pokedex_android.util.setTypeColor
 
 class PokemonHomeAdapter() : RecyclerView.Adapter<PokemonHomeAdapter.PokemonViewHolder>(){
 
-    private var pokemonData = emptyList<OnePokemonResponse>()
+    private var pokemonData = emptyList<CompletePokemonResponse>()
 
     class PokemonViewHolder(val binding: PokemonItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -58,8 +58,9 @@ class PokemonHomeAdapter() : RecyclerView.Adapter<PokemonHomeAdapter.PokemonView
 
     override fun getItemCount() = pokemonData.size
 
-    fun updatePokemon(pokemon : List<OnePokemonResponse>){
+    fun updatePokemon(pokemon : List<CompletePokemonResponse>){
         notifyDataSetChanged()
         this.pokemonData = pokemon
     }
 }
+

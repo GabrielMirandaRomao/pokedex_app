@@ -1,8 +1,8 @@
-package com.example.pokedex_android.domain.model
+package com.example.pokedex_android.data.remote.models.pokemonModel
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonModel(
+data class StatResponse(
     @SerializedName("name")
     val name: String,
     @SerializedName("url")

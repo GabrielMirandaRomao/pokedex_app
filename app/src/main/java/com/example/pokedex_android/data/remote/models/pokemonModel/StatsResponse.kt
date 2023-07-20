@@ -1,5 +1,6 @@
-package com.example.pokedex_android.domain.model
+package com.example.pokedex_android.data.remote.models.pokemonModel
 
+import com.example.pokedex_android.data.remote.models.pokemonModel.StatResponse
 import com.google.gson.annotations.SerializedName
 
 data class StatsResponse(

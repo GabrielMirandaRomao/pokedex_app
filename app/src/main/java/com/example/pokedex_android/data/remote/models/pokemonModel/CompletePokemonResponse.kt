@@ -1,9 +1,9 @@
-package com.example.pokedex_android.domain.model
+package com.example.pokedex_android.data.remote.models.pokemonModel
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class OnePokemonResponse(
+data class CompletePokemonResponse(
     @SerializedName("abilities")
     val abilities: List<AbilitiesResponse>?,
     @SerializedName("weight")

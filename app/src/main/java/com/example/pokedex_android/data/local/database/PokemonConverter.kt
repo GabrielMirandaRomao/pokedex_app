@@ -6,8 +6,8 @@ import com.example.pokedex_android.data.local.entities.PokemonEntity
 import com.example.pokedex_android.data.local.entities.SpeciesEntity
 import com.example.pokedex_android.data.local.entities.StatsEntity
 import com.example.pokedex_android.data.local.entities.TypesEntity
-import com.example.pokedex_android.domain.model.PokemonTypeResponse
-import com.example.pokedex_android.domain.model.SpritesResponse
+import com.example.pokedex_android.data.remote.models.pokemonModel.PokemonTypeResponse
+import com.example.pokedex_android.data.remote.models.pokemonModel.SpritesResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

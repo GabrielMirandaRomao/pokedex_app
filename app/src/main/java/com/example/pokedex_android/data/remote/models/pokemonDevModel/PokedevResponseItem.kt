@@ -1,9 +1,7 @@
-package com.example.pokedex_android.domain.modelPokedev
-
-import com.example.pokedex_android.domain.model.AbilitiesResponse
+package com.example.pokedex_android.data.remote.models.pokemonDevModel
 
 data class PokedevResponseItem(
-    val abilities: AbilitiesResponse,
+    val abilities: AbilitiesDevResponse,
     val description: String,
     val eggGroups: List<String>,
     val family: FamilyResponse,
