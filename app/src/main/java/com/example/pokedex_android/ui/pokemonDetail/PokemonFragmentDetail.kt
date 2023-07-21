@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -20,8 +21,8 @@ import com.example.pokedex_android.util.setTypeBackgroundDarker
 class PokemonFragmentDetail() : Fragment() {
 
     private val args: PokemonFragmentDetailArgs by navArgs()
+    private val viewModel: PokemonDetailViewModel by viewModels()
     private lateinit var binding: FragmentPokemonDetailsBinding
-    private lateinit var pokemonDetailViewModel: PokemonDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,8 +35,8 @@ class PokemonFragmentDetail() : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        pokemonDetailViewModel = ViewModelProvider(this)[PokemonDetailViewModel::class.java]
-        addObserve()
+        viewModel.getPokemonDev(args.pokemonInfo.name)
+//        addObserve()
         setViewsContents()
     }
 
@@ -45,7 +46,6 @@ class PokemonFragmentDetail() : Fragment() {
                 setTypeBackground(args.pokemonInfo.types[0].name)
             )
         )
-        pokemonDetailViewModel.getPokemonDev(args.pokemonInfo.name)
         super.onResume()
     }
 
@@ -55,7 +55,10 @@ class PokemonFragmentDetail() : Fragment() {
     }
 
     private fun setViewsContents() {
-        binding.vHeader.backgroundTintList = ContextCompat.getColorStateList(requireContext(), setTypeBackground(args.pokemonInfo.types[0].name))
+        binding.vHeader.backgroundTintList = ContextCompat.getColorStateList(
+            requireContext(),
+            setTypeBackground(args.pokemonInfo.types[0].name)
+        )
         binding.tvPokemonName.text = args.pokemonInfo.name
         binding.tvPokemonNumber.text = "#${args.pokemonInfo.number.toString().padStart(3, '0')}"
 
@@ -65,11 +68,20 @@ class PokemonFragmentDetail() : Fragment() {
             binding.tvPokemonType.text = args.pokemonInfo.types[0].name
             binding.tvPokemonSecondType.text = args.pokemonInfo.types[1].name
 
-            binding.tvPokemonType.backgroundTintList = ContextCompat.getColorStateList(requireContext(), setTypeBackgroundDarker(args.pokemonInfo.types[0].name))
-            binding.tvPokemonSecondType.backgroundTintList = ContextCompat.getColorStateList(requireContext(), setTypeBackgroundDarker(args.pokemonInfo.types[1].name))
+            binding.tvPokemonType.backgroundTintList = ContextCompat.getColorStateList(
+                requireContext(),
+                setTypeBackgroundDarker(args.pokemonInfo.types[0].name)
+            )
+            binding.tvPokemonSecondType.backgroundTintList = ContextCompat.getColorStateList(
+                requireContext(),
+                setTypeBackgroundDarker(args.pokemonInfo.types[1].name)
+            )
         } else {
             binding.tvPokemonType.text = args.pokemonInfo.types[0].name
-            binding.tvPokemonType.backgroundTintList = ContextCompat.getColorStateList(requireContext(), setTypeBackgroundDarker(args.pokemonInfo.types[0].name))
+            binding.tvPokemonType.backgroundTintList = ContextCompat.getColorStateList(
+                requireContext(),
+                setTypeBackgroundDarker(args.pokemonInfo.types[0].name)
+            )
 
             binding.tvPokemonSecondType.visibility = View.GONE
         }
@@ -85,7 +97,7 @@ class PokemonFragmentDetail() : Fragment() {
     }
 
     private fun addObserve() {
-        pokemonDetailViewModel.pokemon.observe(viewLifecycleOwner) { pokeItem ->
+        viewModel.pokemon.observe(viewLifecycleOwner) { pokeItem ->
             pokeItem.body()?.map {
                 binding.tvMale.text = it.gender[0].toString()
                 binding.tvFemale.text = it.gender[1].toString()

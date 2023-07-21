@@ -21,9 +21,13 @@
             android:orientation="vertical">
 
             <include layout="@layout/pokemon_loading" />
+
             <include layout="@layout/pokemon_loading" />
+
             <include layout="@layout/pokemon_loading" />
+
             <include layout="@layout/pokemon_loading" />
+
             <include layout="@layout/pokemon_loading" />
 
         </LinearLayout>
@@ -40,5 +44,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/pokemon_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fl_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_change_later" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fl_button_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fl_button"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

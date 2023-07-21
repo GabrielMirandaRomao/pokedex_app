@@ -22,6 +22,7 @@ data class PokemonEntity(
     val stats: List<StatsEntity>?,
     val types: List<TypesEntity>,
     val imageUrl: String?,
+    val secondImageUrl: String?,
     val speciesResponse: SpeciesEntity?
 )
 
@@ -51,6 +52,7 @@ fun PokemonEntity.toDomain() = Pokemon(
         )
     },
     imageUrl = this.imageUrl,
+    secondImageUrl = this.secondImageUrl,
     speciesResponse = this.speciesResponse?.let {
         Species(
             name = it.name,
@@ -85,6 +87,7 @@ fun Pokemon.toEntity() = PokemonEntity(
         )
     },
     imageUrl = this.imageUrl,
+    secondImageUrl = this.secondImageUrl,
     speciesResponse = this.speciesResponse?.let {
         SpeciesEntity(
             name = it.name,

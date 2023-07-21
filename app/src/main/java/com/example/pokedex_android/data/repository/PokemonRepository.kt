@@ -1,6 +1,5 @@
 package com.example.pokedex_android.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.pokedex_android.data.local.datasource.LocalDataSource
@@ -22,23 +21,6 @@ class PokemonRepository @Inject constructor(
     private val remoteDatasource: RemoteDatasource,
     private val localDataSource: LocalDataSource
 ) : Repository {
-
-//    suspend fun getAllPokemons(): List<Response<CompletePokemonResponse>> {
-//        val pokemonList: List<Response<CompletePokemonResponse>> =
-//            RetrofitInstance.api.getAllPokemons().body()?.pokemonResponse!!.map {
-//                getPokemon(it.name)
-//            }
-//
-//        return pokemonList
-//    }
-//
-//    suspend fun getPokemon(name: String): Response<CompletePokemonResponse> {
-//        return RetrofitInstance.api.getPokemon(name)
-//    }
-
-//    suspend fun getPokemonDev(name: String): Response<PokedevResponse> {
-//        return RetrofitInstance.apiTwo.getPokeonInPokedev(name)
-//    }
 
     // Sempre deve vir do banco
     // Dar um request na api, popular o banco e em seguida a viewmodel recebe apenas do banco

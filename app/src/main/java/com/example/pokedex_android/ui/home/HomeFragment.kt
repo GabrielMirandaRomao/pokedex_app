@@ -20,7 +20,6 @@ import com.example.pokedex_android.ui.state.ResponseViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentHomeBinding
@@ -40,6 +39,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.getAllPokemon()
         setupRecyclerView()
         requestData()
+        setlistener()
     }
 
     override fun onResume() {
@@ -78,6 +78,16 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
     }
+
+    private fun setlistener() {
+        binding.flButton.setOnClickListener {
+            adapter.setAllPokemonAsShiny(true)
+        }
+        binding.flButton2.setOnClickListener {
+            adapter.setAllPokemonAsShiny(false)
+        }
+    }
+    
 
     private fun searchThroughDatabase(pokemon: String) {
         val searchQuery = "%$pokemon%"

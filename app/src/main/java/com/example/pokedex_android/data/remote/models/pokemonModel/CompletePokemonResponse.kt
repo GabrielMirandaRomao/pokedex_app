@@ -58,6 +58,7 @@ fun CompletePokemonResponse.toDomain(): Pokemon {
             )
         },
         imageUrl = this.spritesResponse?.other?.officialArt?.frontDefault,
+        secondImageUrl = this.spritesResponse?.other?.officialArt?.frontShiny,
         speciesResponse = Species(
             name = this.speciesResponse.name,
             url = this.speciesResponse.url

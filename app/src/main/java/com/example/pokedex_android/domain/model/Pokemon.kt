@@ -18,6 +18,7 @@ data class Pokemon(
     val stats: @RawValue List<Stats>?,
     val types: @RawValue List<Types>,
     val imageUrl: @RawValue String?,
+    val secondImageUrl: @RawValue String?,
     val speciesResponse: @RawValue Species?
 ): Parcelable
 

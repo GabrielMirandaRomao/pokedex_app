@@ -75,7 +75,6 @@
                 android:text="@string/pokemon_number"
                 android:textColor="@color/component_text"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@id/iv_pokemon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/mtv_name"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -94,6 +93,15 @@
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:src="@drawable/charmander"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_shiny_pokemon"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:visibility="gone"
+                android:src="@drawable/dratini"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
