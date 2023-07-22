@@ -17,6 +17,7 @@ import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentPokemonDetailsBinding
 import com.example.pokedex_android.util.setTypeBackground
 import com.example.pokedex_android.util.setTypeBackgroundDarker
+import java.util.Locale
 
 class PokemonFragmentDetail() : Fragment() {
 
@@ -59,7 +60,7 @@ class PokemonFragmentDetail() : Fragment() {
             requireContext(),
             setTypeBackground(args.pokemonInfo.types[0].name)
         )
-        binding.tvPokemonName.text = args.pokemonInfo.name
+        binding.tvPokemonName.text = args.pokemonInfo.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
         binding.tvPokemonNumber.text = "#${args.pokemonInfo.number.toString().padStart(3, '0')}"
 
         if (args.pokemonInfo.types.size > 1) {

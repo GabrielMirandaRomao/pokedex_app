@@ -12,16 +12,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Query
 import androidx.room.util.query
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
+import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter
 import com.example.pokedex_android.ui.state.ResponseViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
 
@@ -86,28 +88,21 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.flButton2.setOnClickListener {
             adapter.setAllPokemonAsShiny(false)
         }
-    }
-    
+        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?) = false
 
-    private fun searchThroughDatabase(pokemon: String) {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchThroughDatabase(newText)
+                return true
+            }
+
+        })
+    }
+
+    private fun searchThroughDatabase(pokemon: String?) {
         val searchQuery = "%$pokemon%"
         viewModel.searchPokemon(searchQuery).observe(this) { list ->
             adapter.updatePokemon(list)
         }
     }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            searchThroughDatabase(query)
-        }
-        return true
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            searchThroughDatabase(newText)
-        }
-        return true
-    }
-
 }
