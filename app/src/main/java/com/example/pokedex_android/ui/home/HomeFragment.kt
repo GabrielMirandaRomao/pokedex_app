@@ -26,8 +26,7 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
-
-    private var adapter : PokemonHomeAdapter = PokemonHomeAdapter()
+    private val adapter : PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val window: Window = requireActivity().window
@@ -50,7 +49,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = PokemonHomeAdapter()
         binding.rvPokemonList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvPokemonList.adapter = adapter
     }
@@ -82,11 +80,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setlistener() {
-        binding.flButton.setOnClickListener {
-            adapter.setAllPokemonAsShiny(true)
-        }
-        binding.flButton2.setOnClickListener {
-            adapter.setAllPokemonAsShiny(false)
+        binding.switchMaterial.setOnCheckedChangeListener { it, isChecked ->
+            if(isChecked) {
+                adapter.setAllPokemonAsShiny(true)
+            } else {
+                adapter.setAllPokemonAsShiny(false)
+            }
         }
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
