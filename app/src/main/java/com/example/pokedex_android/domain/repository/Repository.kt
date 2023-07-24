@@ -1,6 +1,7 @@
 package com.example.pokedex_android.domain.repository
 
 import androidx.lifecycle.LiveData
+import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
 import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
 import com.example.pokedex_android.domain.model.Pokemon
 
@@ -11,4 +12,7 @@ interface Repository {
     fun searchPokemon(pokemon: String): LiveData<List<Pokemon>>
     fun getAllFavoritePokemon(): LiveData<List<Pokemon>>
     fun updateFavoritePokemon(isFavorite: Int, number: Int)
+    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>>
+    suspend fun getAllPokemonDev(name: String): PokedevResponse
+    suspend fun getPokemonDev() : PokedevResponse
 }

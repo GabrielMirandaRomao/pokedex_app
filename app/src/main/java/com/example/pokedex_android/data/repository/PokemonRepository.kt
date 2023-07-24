@@ -1,5 +1,6 @@
 package com.example.pokedex_android.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.pokedex_android.data.local.datasource.LocalDataSource
@@ -7,10 +8,12 @@ import com.example.pokedex_android.data.local.entities.PokemonEntity
 import com.example.pokedex_android.data.local.entities.toDomain
 import com.example.pokedex_android.data.local.entities.toEntity
 import com.example.pokedex_android.data.remote.datasource.RemoteDatasource
+import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
 import com.example.pokedex_android.data.remote.models.pokemonModel.CompletePokemonResponse
 import com.example.pokedex_android.data.remote.models.pokemonModel.toDomain
 import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.domain.repository.Repository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
@@ -37,6 +40,7 @@ class PokemonRepository @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun getRemotePokemon(): List<Pokemon> {
         val concurrencyLimit = 2
         val response = remoteDatasource.getAllPokemon()
@@ -70,6 +74,12 @@ class PokemonRepository @Inject constructor(
     override fun updateFavoritePokemon(isFavorite: Int, number: Int) {
         localDataSource.updateTofavorite(isFavorite, number)
     }
+    
+    private suspend fun getRemotePokemonDev(): List<PokedevResponse> {
+        val response = remoteDatasource.getAllPokemon()
+
+        return response.body()?.pokemonResponse?.map { getAllPokemonDev(it.name) } ?: emptyList()
+    }
 
     private fun areListsEqual(listLocal: List<Pokemon>, listRemote: List<PokemonEntity>): Boolean {
         return listLocal.size == listRemote.size && listLocal.all { listRemote.contains(it.toEntity()) }
@@ -84,6 +94,22 @@ class PokemonRepository @Inject constructor(
 
         return response.body()
             ?: throw PokemonFetchException("Received null Pokemon details from remote source")
+    }
+
+    override suspend fun getAllPokemonDev(name: String): PokedevResponse {
+        val response = remoteDatasource.getPokemonDev(name)
+
+        if (response.isSuccessful.not()) {
+            Log.d("***Repo", "${response.body()}")
+            throw PokemonFetchException("Unable to fetch Pokemon details from remote source")
+        }
+
+        return response.body()
+            ?: throw PokemonFetchException("Received null Pokemon details from remote source")
+    }
+
+    override suspend fun getPokemonDev(): PokedevResponse {
+        TODO("Not yet implemented")
     }
 
     override suspend fun insertPokemon(pokemon: List<Pokemon>) {

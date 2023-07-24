@@ -22,14 +22,16 @@ class PokemonDetailViewModel @Inject constructor(
         getAllFavoritePokemonUseCase.updateFavoritePokemon(isFavorite, number)
     }
 
-//    private var _pokemon = MutableLiveData<Response<PokedevResponse>>()
-//    val pokemon : LiveData<Response<PokedevResponse>> = _pokemon
-//
-//    fun getPokemonDev(name : String){
-//        viewModelScope.launch {
+//    private val pokemonRepository: PokemonRepository = PokemonRepository()
+
+    private var _pokemon = MutableLiveData<Response<PokedevResponse>>()
+    val pokemon: LiveData<Response<PokedevResponse>> = _pokemon
+
+    fun getPokemonDev(name: String) {
+        viewModelScope.launch {
 //            val response : Response<PokedevResponse> = pokemonRepository.getPokemonDev(name)
 //            Log.d("***Teste response", "${response.body()}")
 //            _pokemon.value = response
-//        }
-//    }
+        }
+   }
 }

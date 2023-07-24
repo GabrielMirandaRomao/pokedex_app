@@ -8,7 +8,7 @@ import retrofit2.http.Path
 interface IPokedevApiService {
 
     @GET("pokemon/{name}")
-    suspend fun getPokeonInPokedev(
+    suspend fun getPokemonDev(
         @Path("name") name : String
     ) : Response<PokedevResponse>
 }
