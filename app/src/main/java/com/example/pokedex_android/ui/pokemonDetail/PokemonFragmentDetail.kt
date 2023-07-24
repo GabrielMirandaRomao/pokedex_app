@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -91,7 +92,9 @@ class PokemonFragmentDetail() : Fragment() {
             binding.tvPokemonSecondType.visibility = View.GONE
         }
 
-        binding.cbFavorite.isChecked = args.pokemonInfo.isFavorite
+        if (args.pokemonInfo.isFavorite) {
+            binding.cbFavorite.isChecked = true
+        }
 
         binding.tvSpeciesValue.text = args.pokemonInfo.speciesResponse?.name
         binding.tvHeightValue.text = args.pokemonInfo.height.toString()
@@ -106,11 +109,13 @@ class PokemonFragmentDetail() : Fragment() {
     private fun setListener() {
         binding.cbFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                Log.d("***Added favorite", "${args.pokemonInfo.number}")
-                viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
+//                Log.d("***Added favorite", "${args.pokemonInfo.number}")
+              viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
+              Toast.makeText(requireContext(), "Pokemon added to favorite!", Toast.LENGTH_SHORT).show()
             } else {
-                Log.d("***Added favorite", "${args.pokemonInfo.number}")
-                viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
+//                Log.d("***Removed favorite", "${args.pokemonInfo.number}")
+              viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
+              Toast.makeText(requireContext(), "Pokemon removed from favorite!", Toast.LENGTH_SHORT).show()
             }
         }
     }

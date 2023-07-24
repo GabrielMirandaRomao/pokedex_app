@@ -60,7 +60,7 @@ fun PokemonEntity.toDomain() = Pokemon(
             url = it.url
         )
     },
-    isFavorite = false
+    isFavorite = isFavorite
 )
 
 fun Pokemon.toEntity() = PokemonEntity(
@@ -96,5 +96,5 @@ fun Pokemon.toEntity() = PokemonEntity(
             url = it.url
         )
     },
-    isFavorite = false
+    isFavorite = this.isFavorite
 )

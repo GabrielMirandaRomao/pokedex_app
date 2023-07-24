@@ -30,7 +30,7 @@ class PokemonRepository @Inject constructor(
 
     override suspend fun getAllPokemon(): List<Pokemon> {
         val localPokemon = localDataSource.getAllLocalPokemon()
-        return if (localPokemon.isNullOrEmpty()) {
+        return if (localPokemon.isEmpty()) {
             getRemotePokemon()
         } else {
             localPokemon.map { it.toDomain() }
