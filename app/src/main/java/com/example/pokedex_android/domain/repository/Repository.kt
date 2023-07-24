@@ -8,5 +8,7 @@ interface Repository {
     suspend fun getAllPokemon(): List<Pokemon>
     suspend fun getPokemon(name: String): CompletePokemonResponse
     suspend fun insertPokemon(pokemon: List<Pokemon>)
-    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>>
+    fun searchPokemon(pokemon: String): LiveData<List<Pokemon>>
+    fun getAllFavoritePokemon(): LiveData<List<Pokemon>>
+    fun updateFavoritePokemon(isFavorite: Int, number: Int)
 }

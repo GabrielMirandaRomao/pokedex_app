@@ -23,4 +23,10 @@ interface PokemonDao {
 
     @Query("SELECT * FROM POKEMON_TABLE WHERE name LIKE :searchQuery")
     fun searchDatabase(searchQuery: String): LiveData<List<PokemonEntity>>
+
+    @Query("UPDATE POKEMON_TABLE SET isFavorite = :isFavorite  WHERE number == :number")
+    fun updateFavoritePokemon(isFavorite: Int, number: Int)
+
+    @Query("SELECT * FROM pokemon_table WHERE isFavorite == 1")
+    fun getAllFavoritePokemon(): LiveData<List<PokemonEntity>>
 }

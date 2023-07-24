@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Query
-import androidx.room.util.query
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
 import com.example.pokedex_android.domain.model.Pokemon
@@ -80,10 +78,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setlistener() {
-        binding.switchMaterial.setOnCheckedChangeListener { it, isChecked ->
+        binding.switchMaterial.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
                 adapter.setAllPokemonAsShiny(true)
+                getAllFavoritePokemon()
             } else {
+                viewModel.getAllPokemon()
                 adapter.setAllPokemonAsShiny(false)
             }
         }
@@ -101,6 +101,12 @@ class HomeFragment : Fragment() {
     private fun searchThroughDatabase(pokemon: String?) {
         val searchQuery = "%$pokemon%"
         viewModel.searchPokemon(searchQuery).observe(this) { list ->
+            adapter.updatePokemon(list)
+        }
+    }
+
+    private fun getAllFavoritePokemon() {
+        viewModel.getAllFavoritePokemon().observe(viewLifecycleOwner) { list ->
             adapter.updatePokemon(list)
         }
     }

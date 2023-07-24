@@ -23,6 +23,7 @@ object DatabaseModule {
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(context, PokemonDatabase::class.java, POKEMON_DATABASE)
         .fallbackToDestructiveMigration()
+        .allowMainThreadQueries()
         .build()
 
     @Provides
