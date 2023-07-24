@@ -72,8 +72,7 @@ class PokemonRepository @Inject constructor(
     private suspend fun getRemotePokemonDev(): List<PokedevResponse> {
         val response = remoteDatasource.getAllPokemon()
 
-        return response.body()?.pokemonResponse?.map { getPokemonDev(it.name) } ?: emptyList()
-
+        return response.body()?.pokemonResponse?.map { getAllPokemonDev(it.name) } ?: emptyList()
     }
 
     private fun areListsEqual(listLocal: List<Pokemon>, listRemote: List<PokemonEntity>): Boolean {
@@ -91,7 +90,7 @@ class PokemonRepository @Inject constructor(
             ?: throw PokemonFetchException("Received null Pokemon details from remote source")
     }
 
-    override suspend fun getPokemonDev(name: String): PokedevResponse {
+    override suspend fun getAllPokemonDev(name: String): PokedevResponse {
         val response = remoteDatasource.getPokemonDev(name)
 
         if (response.isSuccessful.not()) {
@@ -101,6 +100,10 @@ class PokemonRepository @Inject constructor(
 
         return response.body()
             ?: throw PokemonFetchException("Received null Pokemon details from remote source")
+    }
+
+    override suspend fun getPokemonDev(): PokedevResponse {
+        TODO("Not yet implemented")
     }
 
     override suspend fun insertPokemon(pokemon: List<Pokemon>) {

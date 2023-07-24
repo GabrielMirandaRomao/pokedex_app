@@ -8,7 +8,8 @@ import com.example.pokedex_android.domain.model.Pokemon
 interface Repository {
     suspend fun getAllPokemon(): List<Pokemon>
     suspend fun getPokemon(name: String): CompletePokemonResponse
-    suspend fun getPokemonDev(name: String): PokedevResponse
     suspend fun insertPokemon(pokemon: List<Pokemon>)
     fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>>
+    suspend fun getAllPokemonDev(name: String): PokedevResponse
+    suspend fun getPokemonDev() : PokedevResponse
 }
