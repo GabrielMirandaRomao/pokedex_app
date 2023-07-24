@@ -31,11 +31,9 @@ class PokemonRepository @Inject constructor(
     // if next != null
     // chamar a url -> lista
 
-
     override suspend fun getAllPokemon(): List<Pokemon> {
         val localPokemon = localDataSource.getAllLocalPokemon()
-//        getRemotePokemonDev()
-        return if (localPokemon.isNullOrEmpty()) {
+        return if (localPokemon.isEmpty()) {
             getRemotePokemon()
         } else {
             localPokemon.map { it.toDomain() }
@@ -69,6 +67,14 @@ class PokemonRepository @Inject constructor(
         return localDataSource.getAllLocalPokemon().map { it.toDomain() }
     }
 
+    override fun getAllFavoritePokemon(): LiveData<List<Pokemon>> {
+        return localDataSource.getAllFovoritePokemon().map { list -> list.map { it.toDomain() }}
+    }
+
+    override fun updateFavoritePokemon(isFavorite: Int, number: Int) {
+        localDataSource.updateTofavorite(isFavorite, number)
+    }
+    
     private suspend fun getRemotePokemonDev(): List<PokedevResponse> {
         val response = remoteDatasource.getAllPokemon()
 

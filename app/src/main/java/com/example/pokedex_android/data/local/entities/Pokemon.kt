@@ -23,7 +23,8 @@ data class PokemonEntity(
     val types: List<TypesEntity>,
     val imageUrl: String?,
     val secondImageUrl: String?,
-    val speciesResponse: SpeciesEntity?
+    val speciesResponse: SpeciesEntity?,
+    val isFavorite: Boolean
 )
 
 fun PokemonEntity.toDomain() = Pokemon(
@@ -58,7 +59,8 @@ fun PokemonEntity.toDomain() = Pokemon(
             name = it.name,
             url = it.url
         )
-    }
+    },
+    isFavorite = isFavorite
 )
 
 fun Pokemon.toEntity() = PokemonEntity(
@@ -93,5 +95,6 @@ fun Pokemon.toEntity() = PokemonEntity(
             name = it.name,
             url = it.url
         )
-    }
+    },
+    isFavorite = this.isFavorite
 )

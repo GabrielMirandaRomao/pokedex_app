@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex_android.domain.model.Pokemon
+import com.example.pokedex_android.domain.usecase.GetAllFavoritePokemonUseCase
 import com.example.pokedex_android.domain.usecase.GetAllPokemonUseCase
 import com.example.pokedex_android.domain.usecase.SearchPokemonUseCase
 import com.example.pokedex_android.ui.state.ResponseViewState
@@ -18,15 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemonUseCase,
-    private val searchPokemonUseCase: SearchPokemonUseCase
-) : ViewModel() {
+    private val searchPokemonUseCase: SearchPokemonUseCase,
+    private val getAllFavoritePokemonUseCase: GetAllFavoritePokemonUseCase
+)  : ViewModel() {
 
     private var _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
     val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
 
     private val _searchPokemon = MutableLiveData<LiveData<List<Pokemon>>>()
     val searchPokemon: LiveData<LiveData<List<Pokemon>>> = _searchPokemon
-
 
     fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
         _pokemonResponse.postValue(ResponseViewState.Loading())
@@ -40,5 +41,9 @@ class HomeViewModel @Inject constructor(
 
     fun searchPokemon(pokemon: String): LiveData<List<Pokemon>> {
         return searchPokemonUseCase.searchPokemonFromDatabase(pokemon)
+    }
+
+    fun getAllFavoritePokemon(): LiveData<List<Pokemon>> {
+        return getAllFavoritePokemonUseCase.getAllFavoritePokemon()
     }
 }

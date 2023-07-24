@@ -62,7 +62,8 @@ fun CompletePokemonResponse.toDomain(): Pokemon {
         speciesResponse = Species(
             name = this.speciesResponse.name,
             url = this.speciesResponse.url
-        )
+        ),
+        isFavorite = false
     )
 }
 

@@ -1,14 +1,15 @@
 package com.example.pokedex_android.ui.pokemonDetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -17,8 +18,10 @@ import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentPokemonDetailsBinding
 import com.example.pokedex_android.util.setTypeBackground
 import com.example.pokedex_android.util.setTypeBackgroundDarker
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
+@AndroidEntryPoint
 class PokemonFragmentDetail() : Fragment() {
 
     private val args: PokemonFragmentDetailArgs by navArgs()
@@ -36,9 +39,10 @@ class PokemonFragmentDetail() : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.getPokemonDev(args.pokemonInfo.name)
+//        viewModel.getPokemonDev(args.pokemonInfo.name)
 //        addObserve()
         setViewsContents()
+        setListener()
     }
 
     override fun onResume() {
@@ -60,7 +64,8 @@ class PokemonFragmentDetail() : Fragment() {
             requireContext(),
             setTypeBackground(args.pokemonInfo.types[0].name)
         )
-        binding.tvPokemonName.text = args.pokemonInfo.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+        binding.tvPokemonName.text =
+            args.pokemonInfo.name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
         binding.tvPokemonNumber.text = "#${args.pokemonInfo.number.toString().padStart(3, '0')}"
 
         if (args.pokemonInfo.types.size > 1) {
@@ -87,6 +92,10 @@ class PokemonFragmentDetail() : Fragment() {
             binding.tvPokemonSecondType.visibility = View.GONE
         }
 
+        if (args.pokemonInfo.isFavorite) {
+            binding.cbFavorite.isChecked = true
+        }
+
         binding.tvSpeciesValue.text = args.pokemonInfo.speciesResponse?.name
         binding.tvHeightValue.text = args.pokemonInfo.height.toString()
         binding.tvWeightValue.text = args.pokemonInfo.weight.toString()
@@ -97,13 +106,26 @@ class PokemonFragmentDetail() : Fragment() {
             .into(binding.ivPokemon)
     }
 
-    private fun addObserve() {
-        viewModel.pokemon.observe(viewLifecycleOwner) { pokeItem ->
-            pokeItem.body()?.map {
-                binding.tvMale.text = it.gender[0].toString()
-                binding.tvFemale.text = it.gender[1].toString()
+    private fun setListener() {
+        binding.cbFavorite.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+//                Log.d("***Added favorite", "${args.pokemonInfo.number}")
+              viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
+              Toast.makeText(requireContext(), "Pokemon added to favorite!", Toast.LENGTH_SHORT).show()
+            } else {
+//                Log.d("***Removed favorite", "${args.pokemonInfo.number}")
+              viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
+              Toast.makeText(requireContext(), "Pokemon removed from favorite!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    private fun addObserve() {
+//        viewModel.pokemon.observe(viewLifecycleOwner) { pokeItem ->
+//            pokeItem.body()?.map {
+//                binding.tvMale.text = it.gender[0].toString()
+//                binding.tvFemale.text = it.gender[1].toString()
+//            }
+//        }
+    }
 }

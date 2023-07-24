@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Query
-import androidx.room.util.query
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentHomeBinding
-import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.ui.adapter.PokemonHomeAdapter
 import com.example.pokedex_android.ui.state.ResponseViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,9 +25,42 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
-    private val adapter : PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
+    private val adapter: PokemonHomeAdapter by lazy { PokemonHomeAdapter() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_close_anim
+        )
+    }
+    private val fromTop: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.from_top_anim
+        )
+    }
+    private val toTop: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.to_top_anim
+        )
+    }
+
+    private var isShinyShowing: Boolean = false
+    private var isFavoriteShowing: Boolean = false
+    private var isClicked: Boolean = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val window: Window = requireActivity().window
         window.statusBarColor = resources.getColor(R.color.red)
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
@@ -54,7 +86,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestData() {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.pokemonResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is ResponseViewState.Success -> {
@@ -64,6 +96,7 @@ class HomeFragment : Fragment() {
                         }
                         binding.llLoadingPokemons.visibility = View.GONE
                     }
+
                     is ResponseViewState.Error -> {
                         response.let {
                             binding.rvPokemonList.visibility = View.GONE
@@ -71,6 +104,7 @@ class HomeFragment : Fragment() {
                                 .show()
                         }
                     }
+
                     is ResponseViewState.Loading -> {
                         binding.rvPokemonList.visibility = View.VISIBLE
                     }
@@ -80,14 +114,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setlistener() {
-        binding.switchMaterial.setOnCheckedChangeListener { it, isChecked ->
-            if(isChecked) {
-                adapter.setAllPokemonAsShiny(true)
-            } else {
-                adapter.setAllPokemonAsShiny(false)
-            }
-        }
-        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -96,11 +123,63 @@ class HomeFragment : Fragment() {
             }
 
         })
+        binding.floatButtonMenu.setOnClickListener {
+            setVisibility(isClicked)
+            setAnimation(isClicked)
+            isClicked = !isClicked
+        }
+        binding.floatGetShinies.setOnClickListener {
+            if (!isShinyShowing) {
+                isShinyShowing = true
+                adapter.setAllPokemonAsShiny(true)
+            } else {
+                isShinyShowing = false
+                adapter.setAllPokemonAsShiny(false)
+            }
+
+        }
+        binding.floatGetFavorites.setOnClickListener {
+            if (!isFavoriteShowing) {
+                isFavoriteShowing = true
+                getAllFavoritePokemon()
+            } else {
+                isFavoriteShowing = false
+                viewModel.getAllPokemon()
+            }
+        }
+    }
+
+    private fun setVisibility(isClicked: Boolean) {
+        if (!isClicked) {
+            binding.floatGetShinies.visibility = View.VISIBLE
+            binding.floatGetFavorites.visibility = View.VISIBLE
+        } else {
+            binding.floatGetShinies.visibility = View.INVISIBLE
+            binding.floatGetFavorites.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setAnimation(isClicked: Boolean) {
+        if (!isClicked) {
+            binding.floatGetShinies.startAnimation(fromTop)
+            binding.floatGetFavorites.startAnimation(fromTop)
+            binding.floatButtonMenu.startAnimation(rotateOpen)
+        } else {
+            binding.floatGetShinies.startAnimation(toTop)
+            binding.floatGetFavorites.startAnimation(toTop)
+            binding.floatButtonMenu.startAnimation(rotateClose)
+        }
     }
 
     private fun searchThroughDatabase(pokemon: String?) {
         val searchQuery = "%$pokemon%"
         viewModel.searchPokemon(searchQuery).observe(this) { list ->
+            adapter.updatePokemon(list)
+        }
+    }
+
+    private fun getAllFavoritePokemon() {
+        viewModel.getAllFavoritePokemon().observe(viewLifecycleOwner) { list ->
             adapter.updatePokemon(list)
         }
     }

@@ -13,7 +13,7 @@
         android:layout_margin="8sp"
         app:cardCornerRadius="32dp"
         app:cardElevation="8dp"
-        app:layout_constraintEnd_toStartOf="@id/switch_material"
+        app:layout_constraintEnd_toStartOf="@id/float_button_menu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -27,13 +27,44 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_material"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/float_button_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_plus"
+        app:backgroundTint="@color/red"
+        app:layout_constraintBottom_toBottomOf="@id/mt_card_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/mt_card_view" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/float_get_shinies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_shiny"
+        android:visibility="gone"
+        app:backgroundTint="@color/shiny"
+        app:layout_constraintEnd_toEndOf="@id/float_button_menu"
+        app:layout_constraintTop_toBottomOf="@id/float_button_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/float_get_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_selected_fav"
+        android:visibility="gone"
+        app:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/float_get_shinies"
+        app:layout_constraintTop_toBottomOf="@id/float_get_shinies" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
