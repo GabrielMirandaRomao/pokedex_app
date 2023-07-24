@@ -19,7 +19,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemonUseCase,
     private val searchPokemonUseCase: SearchPokemonUseCase
-)  : ViewModel() {
+) : ViewModel() {
 
     private var _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
     val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
@@ -32,12 +32,13 @@ class HomeViewModel @Inject constructor(
         _pokemonResponse.postValue(ResponseViewState.Loading())
         getAllPokemonUseCase().onSuccess {
             _pokemonResponse.postValue(ResponseViewState.Success(it))
+            Log.d("***ViewModel", it.toString())
         }.onFailure {
             _pokemonResponse.postValue(ResponseViewState.Error(it))
         }
     }
 
-    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>> {
+    fun searchPokemon(pokemon: String): LiveData<List<Pokemon>> {
         return searchPokemonUseCase.searchPokemonFromDatabase(pokemon)
     }
 }
