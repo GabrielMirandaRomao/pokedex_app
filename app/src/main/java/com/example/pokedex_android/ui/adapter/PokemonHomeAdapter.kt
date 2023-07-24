@@ -11,6 +11,7 @@ import com.example.pokedex_android.databinding.PokemonItemBinding
 import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.ui.home.HomeFragmentDirections
 import com.example.pokedex_android.util.setTypeColor
+import java.util.Locale
 
 class PokemonHomeAdapter() : RecyclerView.Adapter<PokemonHomeAdapter.PokemonViewHolder>() {
 
@@ -31,7 +32,7 @@ class PokemonHomeAdapter() : RecyclerView.Adapter<PokemonHomeAdapter.PokemonView
                 mtvName.visibility = View.GONE
             } else {
                 mtvNumber.text = "#${pokemonData[position].number.toString().padStart(3, '0')}"
-                mtvName.text = pokemonData[position].name
+                mtvName.text = pokemonData[position].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
 
                 if (pokemonData[position].types.size > 1) {
                     tvPokemonType.text = pokemonData[position].types[0].name
