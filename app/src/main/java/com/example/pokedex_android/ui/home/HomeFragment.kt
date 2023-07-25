@@ -77,6 +77,9 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        isShinyShowing = false
+        isFavoriteShowing = false
+        adapter.setAllPokemonAsShiny(false)
         viewModel.getAllPokemon()
     }
 

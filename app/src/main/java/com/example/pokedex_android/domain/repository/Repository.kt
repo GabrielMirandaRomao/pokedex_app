@@ -12,7 +12,6 @@ interface Repository {
     fun searchPokemon(pokemon: String): LiveData<List<Pokemon>>
     fun getAllFavoritePokemon(): LiveData<List<Pokemon>>
     fun updateFavoritePokemon(isFavorite: Int, number: Int)
-    fun searchPokemon(pokemon: String) : LiveData<List<Pokemon>>
     suspend fun getAllPokemonDev(name: String): PokedevResponse
     suspend fun getPokemonDev() : PokedevResponse
 }
