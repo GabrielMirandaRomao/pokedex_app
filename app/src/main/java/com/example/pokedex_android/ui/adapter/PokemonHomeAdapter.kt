@@ -32,7 +32,8 @@ class PokemonHomeAdapter() : RecyclerView.Adapter<PokemonHomeAdapter.PokemonView
                 mtvName.visibility = View.GONE
             } else {
                 mtvNumber.text = "#${pokemonData[position].number.toString().padStart(3, '0')}"
-                mtvName.text = pokemonData[position].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+                mtvName.text =
+                    pokemonData[position].name.replaceFirstChar { it.uppercase(Locale.getDefault()) }
 
                 if (pokemonData[position].types.size > 1) {
                     tvPokemonType.text = pokemonData[position].types[0].name
@@ -46,13 +47,13 @@ class PokemonHomeAdapter() : RecyclerView.Adapter<PokemonHomeAdapter.PokemonView
                 clCardView.setTypeColor(pokemonData[position].types[0].name)
 
                 val isShiny = isAllShiny
-                ivShinyPokemon.visibility = if(isShiny) View.VISIBLE else View.GONE
-                ivPokemon.visibility = if(isShiny) View.GONE else View.VISIBLE
+                ivShinyPokemon.visibility = if (isShiny) View.VISIBLE else View.GONE
+                ivPokemon.visibility = if (isShiny) View.GONE else View.VISIBLE
 
                 Glide.with(holder.itemView)
-                    .load(if(isShiny) pokemonData[position].secondImageUrl else pokemonData[position].imageUrl)
+                    .load(if (isShiny) pokemonData[position].secondImageUrl else pokemonData[position].imageUrl)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(if(isShiny) ivShinyPokemon else ivPokemon)
+                    .into(if (isShiny) ivShinyPokemon else ivPokemon)
             }
         }
 

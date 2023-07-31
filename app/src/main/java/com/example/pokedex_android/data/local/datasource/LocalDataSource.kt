@@ -3,6 +3,7 @@ package com.example.pokedex_android.data.local.datasource
 import androidx.lifecycle.LiveData
 import com.example.pokedex_android.data.local.database.PokemonDao
 import com.example.pokedex_android.data.local.entities.PokemonEntity
+import com.example.pokedex_android.domain.model.Pokemon
 import java.text.FieldPosition
 import javax.inject.Inject
 
@@ -36,5 +37,9 @@ class LocalDataSource @Inject constructor (
 
     fun getPokemonImage(name: String): String {
         return pokemonDao.getPokemonImage(name)
+    }
+
+    fun getPokemonEvolution(name: String): PokemonEntity {
+        return pokemonDao.getPokemonEvolution(name)
     }
 }

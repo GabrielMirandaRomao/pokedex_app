@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
+import com.example.pokedex_android.domain.model.Pokemon
 import com.example.pokedex_android.domain.usecase.GetAllFavoritePokemonUseCase
 import com.example.pokedex_android.domain.usecase.GetAllPokemonDevUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,10 @@ class PokemonDetailViewModel @Inject constructor(
     private var _pokemon = MutableLiveData<PokedevResponse>()
     val pokemon: LiveData<PokedevResponse> = _pokemon
 
+    private var _pokemonEvolutionLine = MutableLiveData<List<Pokemon>>()
+    val pokemonEvolutionLine: LiveData<List<Pokemon>> = _pokemonEvolutionLine
+
+
     fun updateFavoritePokemon(isFavorite: Int, number: Int) {
         getAllFavoritePokemonUseCase.updateFavoritePokemon(isFavorite, number)
     }
@@ -31,7 +36,13 @@ class PokemonDetailViewModel @Inject constructor(
         }
     }
 
-    fun getPokemonImage(name: String) : String {
+    fun getPokemonImage(name: String): String{
         return getAllPokemonDevUseCase.getPokemonImage(name)
+    }
+
+    fun getPokemonEvolutionLine(name: String) {
+        viewModelScope.launch {
+            _pokemonEvolutionLine.value = getAllPokemonDevUseCase.getPokemonEvolutionLine(name)
+        }
     }
 }

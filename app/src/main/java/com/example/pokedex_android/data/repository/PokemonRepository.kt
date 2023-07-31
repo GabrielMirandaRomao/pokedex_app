@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
+import java.util.Locale
 import javax.inject.Inject
 
 class PokemonRepository @Inject constructor(
@@ -53,6 +54,44 @@ class PokemonRepository @Inject constructor(
 
     override fun getPokemonImage(name: String): String {
         return localDataSource.getPokemonImage(name)
+    }
+
+    override suspend fun getPokemonEvolutionLine(name: String): List<Pokemon> {
+        val pokemonList = mutableListOf<Pokemon>()
+        val response = remoteDatasource.getPokemonDev(name)
+
+        if (response.isSuccessful.not()) {
+            throw PokemonFetchException("Unable to fetch Pokemon details from the remote source")
+        }
+
+        if (name.lowercase(Locale.ROOT) == "eevee") {
+//            val evolutionLine = "eevee/vaporeon/jolteon/flareon"
+            val evolutionLine: String = "eevee/" + response.body()!![0].family.evolutionLine[1]
+
+            val evolutions = evolutionLine.split("/")
+            for (evolutionName in evolutions) {
+                val pokemonName = evolutionName.lowercase(Locale.ROOT)
+                val pokemonData = localDataSource.getPokemonEvolution(
+                    pokemonName
+                )?.toDomain()
+                if (pokemonData != null) {
+                    pokemonList.add(pokemonData)
+                }
+            }
+        } else {
+            val evolutionLine = response.body()?.get(0)?.family?.evolutionLine
+            if (!evolutionLine.isNullOrEmpty()) {
+                for (pokemon in evolutionLine) {
+                    val pokemonName = pokemon.lowercase(Locale.ROOT)
+                    val pokemonData = localDataSource.getPokemonEvolution(pokemonName)?.toDomain()
+                    if (pokemonData != null) {
+                        pokemonList.add(pokemonData)
+                    }
+                }
+            }
+        }
+
+        return pokemonList
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
