@@ -11,11 +11,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.pokedex_android.ui.MainActivity
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentPokemonDetailsBinding
+import com.example.pokedex_android.ui.adapter.PokemonEvolutionAdapter
 import com.example.pokedex_android.util.setTypeBackground
 import com.example.pokedex_android.util.setTypeBackgroundDarker
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +31,7 @@ class PokemonFragmentDetail() : Fragment() {
     private val args: PokemonFragmentDetailArgs by navArgs()
     private val viewModel: PokemonDetailViewModel by viewModels()
     private lateinit var binding: FragmentPokemonDetailsBinding
+    private val adapter : PokemonEvolutionAdapter by lazy { PokemonEvolutionAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,24 +44,25 @@ class PokemonFragmentDetail() : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        viewModel.getPokemonDev(args.pokemonInfo.name)
-//        addObserve()
-        setViewsContents()
-        setListener()
-    }
-
-    override fun onResume() {
         (activity as MainActivity).supportActionBar?.setBackgroundDrawable(
             resources.getDrawable(
                 setTypeBackground(args.pokemonInfo.types[0].name)
             )
         )
-        super.onResume()
+        addObserve()
+        setViewsContents()
+        setListener()
+        setupRecyclerView()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         (activity as MainActivity).supportActionBar?.setBackgroundDrawable(resources.getDrawable(R.color.red))
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvPokemonList.layoutManager = LinearLayoutManager(requireContext(), HORIZONTAL, false)
+        binding.rvPokemonList.adapter = adapter
     }
 
     private fun setViewsContents() {
@@ -109,23 +115,40 @@ class PokemonFragmentDetail() : Fragment() {
     private fun setListener() {
         binding.cbFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-//                Log.d("***Added favorite", "${args.pokemonInfo.number}")
-              viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
-              Toast.makeText(requireContext(), "Pokemon added to favorite!", Toast.LENGTH_SHORT).show()
+                viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
+                Toast.makeText(
+                    requireContext(), "Pokemon added to favorite!", Toast.LENGTH_SHORT
+                )
+                    .show()
             } else {
-//                Log.d("***Removed favorite", "${args.pokemonInfo.number}")
-              viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
-              Toast.makeText(requireContext(), "Pokemon removed from favorite!", Toast.LENGTH_SHORT).show()
+                viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
+                Toast.makeText(
+                    requireContext(), "Pokemon removed from favorite!", Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
+    // Pesquisar como Glide funciona...
+
     private fun addObserve() {
-//        viewModel.pokemon.observe(viewLifecycleOwner) { pokeItem ->
-//            pokeItem.body()?.map {
-//                binding.tvMale.text = it.gender[0].toString()
-//                binding.tvFemale.text = it.gender[1].toString()
-//            }
-//        }
+        viewModel.getPokemonDev(args.pokemonInfo.name)
+
+        viewModel.pokemon.observe(viewLifecycleOwner) { pokemonList ->
+            if(pokemonList[0].gender.isEmpty()){
+                binding.tvMale.visibility = View.GONE
+                binding.tvFemale.visibility = View.GONE
+                binding.tvGenders.text = "No gender"
+            } else {
+                binding.tvMale.text = pokemonList[0].gender[0].toString()
+                binding.tvFemale.text = pokemonList[0].gender[1].toString()
+            }
+        }
+
+        viewModel.getPokemonEvolutionLine(args.pokemonInfo.name)
+
+        viewModel.pokemonEvolutionLine.observe(viewLifecycleOwner) {
+            adapter.updateEvolutionLine(it)
+        }
     }
 }

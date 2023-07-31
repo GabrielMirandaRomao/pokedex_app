@@ -6,19 +6,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/poke_dex"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_pokedex"
             android:title="@string/pokedex" />
         <item
             android:id="@+id/poke_balls"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/poke_ball" />
+            android:title="@string/poke_ball"
+            android:visible="false"/>
         <item
             android:id="@+id/berry"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/berry" />
+            android:title="@string/berry"
+            android:visible="false"/>
         <item
             android:id="@+id/games"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/games" />
+            android:title="@string/games"
+            android:visible="false"/>
     </group>
 </menu>
