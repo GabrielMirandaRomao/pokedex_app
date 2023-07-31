@@ -30,7 +30,11 @@ class LocalDataSource @Inject constructor (
         return pokemonDao.getAllFavoritePokemon()
     }
 
-    fun updateTofavorite(isFavorite: Int, number: Int){
+    fun updateTofavorite(isFavorite: Int, number: Int) {
         pokemonDao.updateFavoritePokemon(isFavorite, number)
+    }
+
+    fun getPokemonImage(name: String): String {
+        return pokemonDao.getPokemonImage(name)
     }
 }

@@ -6,32 +6,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex_android.data.remote.models.pokemonDevModel.PokedevResponse
-import com.example.pokedex_android.data.repository.PokemonRepository
 import com.example.pokedex_android.domain.usecase.GetAllFavoritePokemonUseCase
+import com.example.pokedex_android.domain.usecase.GetAllPokemonDevUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonDetailViewModel @Inject constructor(
-    private val getAllFavoritePokemonUseCase: GetAllFavoritePokemonUseCase
+    private val getAllFavoritePokemonUseCase: GetAllFavoritePokemonUseCase,
+    private val getAllPokemonDevUseCase: GetAllPokemonDevUseCase
 ) : ViewModel() {
+
+    private var _pokemon = MutableLiveData<PokedevResponse>()
+    val pokemon: LiveData<PokedevResponse> = _pokemon
 
     fun updateFavoritePokemon(isFavorite: Int, number: Int) {
         getAllFavoritePokemonUseCase.updateFavoritePokemon(isFavorite, number)
     }
 
-//    private val pokemonRepository: PokemonRepository = PokemonRepository()
-
-    private var _pokemon = MutableLiveData<Response<PokedevResponse>>()
-    val pokemon: LiveData<Response<PokedevResponse>> = _pokemon
-
-    fun getPokemonDev(name: String) {
+    fun getPokemonDev(name: String){
         viewModelScope.launch {
-//            val response : Response<PokedevResponse> = pokemonRepository.getPokemonDev(name)
-//            Log.d("***Teste response", "${response.body()}")
-//            _pokemon.value = response
+            _pokemon.value = getAllPokemonDevUseCase.getPokemonDev(name)
         }
-   }
+    }
+
+    fun getPokemonImage(name: String) : String {
+        return getAllPokemonDevUseCase.getPokemonImage(name)
+    }
 }

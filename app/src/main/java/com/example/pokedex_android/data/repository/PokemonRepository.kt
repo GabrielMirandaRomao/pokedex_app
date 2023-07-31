@@ -40,6 +40,21 @@ class PokemonRepository @Inject constructor(
         }
     }
 
+    override suspend fun getPokemonDev(name: String): PokedevResponse {
+        val response = remoteDatasource.getPokemonDev(name)
+
+        if (response.isSuccessful.not()) {
+            throw PokemonFetchException("Unable to fetch Pokemon details from remote source")
+        }
+
+        return response.body()
+            ?: throw PokemonFetchException("Received null Pokemon details from remote source")
+    }
+
+    override fun getPokemonImage(name: String): String {
+        return localDataSource.getPokemonImage(name)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun getRemotePokemon(): List<Pokemon> {
         val concurrencyLimit = 2
@@ -68,17 +83,11 @@ class PokemonRepository @Inject constructor(
     }
 
     override fun getAllFavoritePokemon(): LiveData<List<Pokemon>> {
-        return localDataSource.getAllFovoritePokemon().map { list -> list.map { it.toDomain() }}
+        return localDataSource.getAllFovoritePokemon().map { list -> list.map { it.toDomain() } }
     }
 
     override fun updateFavoritePokemon(isFavorite: Int, number: Int) {
         localDataSource.updateTofavorite(isFavorite, number)
-    }
-    
-    private suspend fun getRemotePokemonDev(): List<PokedevResponse> {
-        val response = remoteDatasource.getAllPokemon()
-
-        return response.body()?.pokemonResponse?.map { getAllPokemonDev(it.name) } ?: emptyList()
     }
 
     private fun areListsEqual(listLocal: List<Pokemon>, listRemote: List<PokemonEntity>): Boolean {
@@ -94,22 +103,6 @@ class PokemonRepository @Inject constructor(
 
         return response.body()
             ?: throw PokemonFetchException("Received null Pokemon details from remote source")
-    }
-
-    override suspend fun getAllPokemonDev(name: String): PokedevResponse {
-        val response = remoteDatasource.getPokemonDev(name)
-
-        if (response.isSuccessful.not()) {
-            Log.d("***Repo", "${response.body()}")
-            throw PokemonFetchException("Unable to fetch Pokemon details from remote source")
-        }
-
-        return response.body()
-            ?: throw PokemonFetchException("Received null Pokemon details from remote source")
-    }
-
-    override suspend fun getPokemonDev(): PokedevResponse {
-        TODO("Not yet implemented")
     }
 
     override suspend fun insertPokemon(pokemon: List<Pokemon>) {

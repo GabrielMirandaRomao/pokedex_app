@@ -9,11 +9,19 @@ class GetAllPokemonDevUseCase @Inject constructor(
     private val repository: Repository
 ) {
 
-    suspend operator fun invoke() : Result<PokedevResponse> {
+    suspend fun getPokemonDev(name: String): PokedevResponse {
         return try {
-            Result.success(repository.getPokemonDev())
-        }catch (exception: RemoteException){
-            Result.failure(exception)
+            repository.getPokemonDev(name)
+        } catch (exception: RemoteException) {
+            throw exception
+        }
+    }
+
+    fun getPokemonImage(name: String): String {
+        return try {
+            repository.getPokemonImage(name)
+        } catch (exception: RemoteException) {
+            throw exception
         }
     }
 }

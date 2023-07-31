@@ -39,7 +39,6 @@ class PokemonFragmentDetail() : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        viewModel.getPokemonDev(args.pokemonInfo.name)
 //        addObserve()
         setViewsContents()
         setListener()
@@ -109,23 +108,38 @@ class PokemonFragmentDetail() : Fragment() {
     private fun setListener() {
         binding.cbFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-//                Log.d("***Added favorite", "${args.pokemonInfo.number}")
-              viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
-              Toast.makeText(requireContext(), "Pokemon added to favorite!", Toast.LENGTH_SHORT).show()
+                viewModel.updateFavoritePokemon(1, args.pokemonInfo.number)
+                Toast.makeText(
+                    requireContext(), "Pokemon added to favorite!", Toast.LENGTH_SHORT)
+                    .show()
             } else {
-//                Log.d("***Removed favorite", "${args.pokemonInfo.number}")
-              viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
-              Toast.makeText(requireContext(), "Pokemon removed from favorite!", Toast.LENGTH_SHORT).show()
+                viewModel.updateFavoritePokemon(0, args.pokemonInfo.number)
+                Toast.makeText(
+                    requireContext(), "Pokemon removed from favorite!", Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
+    // Pesquisar como Glide funciona...
+
     private fun addObserve() {
-//        viewModel.pokemon.observe(viewLifecycleOwner) { pokeItem ->
-//            pokeItem.body()?.map {
-//                binding.tvMale.text = it.gender[0].toString()
-//                binding.tvFemale.text = it.gender[1].toString()
-//            }
-//        }
+        viewModel.getPokemonDev(args.pokemonInfo.name)
+
+        viewModel.pokemon.observe(viewLifecycleOwner) {
+            binding.tvMale.text = it[0].gender[0].toString()
+            binding.tvFemale.text = it[0].gender[1].toString()
+
+//            var pokeName = viewModel.getPokemonImage(it[0].family.evolutionLine[1])
+//
+//            Log.d("***Image", pokeName)
+//
+//            Glide.with(this)
+//                .load(pokeName)
+//                .transition(DrawableTransitionOptions.withCrossFade())
+//                .into(binding.ivFirstForm)
+        }
+
+
     }
 }
