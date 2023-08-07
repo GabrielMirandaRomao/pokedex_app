@@ -26,14 +26,10 @@ class HomeViewModel @Inject constructor(
     private var _pokemonResponse = MutableLiveData<ResponseViewState<List<Pokemon>>>()
     val pokemonResponse: LiveData<ResponseViewState<List<Pokemon>>> = _pokemonResponse
 
-    private val _searchPokemon = MutableLiveData<LiveData<List<Pokemon>>>()
-    val searchPokemon: LiveData<LiveData<List<Pokemon>>> = _searchPokemon
-
     fun getAllPokemon() = viewModelScope.launch(Dispatchers.IO) {
         _pokemonResponse.postValue(ResponseViewState.Loading())
         getAllPokemonUseCase().onSuccess {
             _pokemonResponse.postValue(ResponseViewState.Success(it))
-            Log.d("***ViewModel", it.toString())
         }.onFailure {
             _pokemonResponse.postValue(ResponseViewState.Error(it))
         }

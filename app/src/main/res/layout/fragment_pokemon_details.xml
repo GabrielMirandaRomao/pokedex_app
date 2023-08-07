@@ -187,6 +187,14 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_weight" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male_symbol"
+                app:layout_constraintEnd_toStartOf="@id/tv_male"
+                app:layout_constraintTop_toTopOf="@id/tv_male"
+                app:layout_constraintBottom_toBottomOf="@id/tv_male"/>
+
+            <TextView
                 android:id="@+id/tv_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,6 +202,13 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_genders"
                 app:layout_constraintStart_toStartOf="@id/tv_weight_value" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female_symbol"
+                app:layout_constraintEnd_toStartOf="@id/tv_female"
+                app:layout_constraintTop_toTopOf="@id/tv_female"
+                app:layout_constraintBottom_toBottomOf="@id/tv_female"/>
             <TextView
                 android:id="@+id/tv_female"
                 android:layout_width="wrap_content"

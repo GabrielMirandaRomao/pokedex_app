@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
         viewModel.getAllPokemon()
         setupRecyclerView()
         requestData()
-        setlistener()
+        setListener()
     }
 
     override fun onResume() {
@@ -116,7 +116,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setlistener() {
+    private fun setListener() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
 
