@@ -13,6 +13,5 @@ interface Repository {
     fun getAllFavoritePokemon(): LiveData<List<Pokemon>>
     fun updateFavoritePokemon(isFavorite: Int, number: Int)
     suspend fun getPokemonDev(name: String): PokedevResponse
-    fun getPokemonImage(name: String) : String
     suspend fun getPokemonEvolutionLine(name: String): List<Pokemon>
 }

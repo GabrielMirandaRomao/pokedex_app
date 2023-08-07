@@ -18,14 +18,6 @@ class GetAllPokemonDevUseCase @Inject constructor(
         }
     }
 
-    fun getPokemonImage(name: String): String {
-        return try {
-            repository.getPokemonImage(name)
-        } catch (exception: RemoteException) {
-            throw exception
-        }
-    }
-
     suspend fun getPokemonEvolutionLine(name: String): List<Pokemon> {
         return try {
             repository.getPokemonEvolutionLine(name)

@@ -24,8 +24,10 @@
     <string name="label_pokemon_height">Height</string>
     <string name="label_pokemon_weight">Weight</string>
     <string name="label_pokemon_genders">Genders</string>
-    <string name="label_percentage">60%</string>
+    <string name="label_percentage">50.0</string>
     <string name="label_height_value">45m</string>
     <string name="label_weight_value">5.4</string>
     <string name="pokedex_android">Pokedex Android</string>
+    <string name="female_symbol">&#x2640;</string>
+    <string name="male_symbol">&#x2642;</string>
 </resources>

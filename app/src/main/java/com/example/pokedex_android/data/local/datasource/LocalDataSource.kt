@@ -35,10 +35,6 @@ class LocalDataSource @Inject constructor (
         pokemonDao.updateFavoritePokemon(isFavorite, number)
     }
 
-    fun getPokemonImage(name: String): String {
-        return pokemonDao.getPokemonImage(name)
-    }
-
     fun getPokemonEvolution(name: String): PokemonEntity {
         return pokemonDao.getPokemonEvolution(name)
     }

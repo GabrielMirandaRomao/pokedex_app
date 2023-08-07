@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
+import retrofit2.Response
 import java.util.Locale
 import javax.inject.Inject
 
@@ -42,7 +43,11 @@ class PokemonRepository @Inject constructor(
     }
 
     override suspend fun getPokemonDev(name: String): PokedevResponse {
-        val response = remoteDatasource.getPokemonDev(name)
+        val response = when (name.lowercase()) {
+            "nidoran-f" -> remoteDatasource.getPokemonDev("Nidoran\u2640")
+            "nidoran-m" -> remoteDatasource.getPokemonDev("Nidoran\u2642")
+            else -> remoteDatasource.getPokemonDev(name)
+        }
 
         if (response.isSuccessful.not()) {
             throw PokemonFetchException("Unable to fetch Pokemon details from remote source")
@@ -52,46 +57,60 @@ class PokemonRepository @Inject constructor(
             ?: throw PokemonFetchException("Received null Pokemon details from remote source")
     }
 
-    override fun getPokemonImage(name: String): String {
-        return localDataSource.getPokemonImage(name)
-    }
-
     override suspend fun getPokemonEvolutionLine(name: String): List<Pokemon> {
         val pokemonList = mutableListOf<Pokemon>()
-        val response = remoteDatasource.getPokemonDev(name)
 
-        if (response.isSuccessful.not()) {
-            throw PokemonFetchException("Unable to fetch Pokemon details from the remote source")
-        }
-
-        if (name.lowercase(Locale.ROOT) == "eevee") {
-//            val evolutionLine = "eevee/vaporeon/jolteon/flareon"
-            val evolutionLine: String = "eevee/" + response.body()!![0].family.evolutionLine[1]
-
-            val evolutions = evolutionLine.split("/")
-            for (evolutionName in evolutions) {
-                val pokemonName = evolutionName.lowercase(Locale.ROOT)
-                val pokemonData = localDataSource.getPokemonEvolution(
-                    pokemonName
-                )?.toDomain()
-                if (pokemonData != null) {
-                    pokemonList.add(pokemonData)
-                }
+        try {
+            val response: Response<PokedevResponse> = when (name) {
+                "nidoran-f" -> remoteDatasource.getPokemonDev("nidoran\u2640")
+                "nidoran-m" -> remoteDatasource.getPokemonDev("nidoran\u2642")
+                "eevee" -> remoteDatasource.getPokemonDev(name)
+                else -> remoteDatasource.getPokemonDev(name)
             }
-        } else {
-            val evolutionLine = response.body()?.get(0)?.family?.evolutionLine
-            if (!evolutionLine.isNullOrEmpty()) {
-                for (pokemon in evolutionLine) {
-                    val pokemonName = pokemon.lowercase(Locale.ROOT)
-                    val pokemonData = localDataSource.getPokemonEvolution(pokemonName)?.toDomain()
+
+            if (response.isSuccessful.not()) {
+                throw PokemonFetchException("Unable to fetch Pokemon details from the remote source")
+            }
+
+            if (name == "eevee") {
+                val evolutionLine: String = "eevee/" + response.body()!![0].family.evolutionLine[1]
+
+                val evolutions = evolutionLine.split("/")
+                for (evolutionName in evolutions) {
+                    val pokemonName = evolutionName.lowercase(Locale.ROOT)
+                    val pokemonData = localDataSource.getPokemonEvolution(
+                        pokemonName
+                    )?.toDomain()
                     if (pokemonData != null) {
                         pokemonList.add(pokemonData)
                     }
                 }
-            }
-        }
+            } else {
+                val evolutionLine = response.body()?.get(0)?.family?.evolutionLine
+                if (!evolutionLine.isNullOrEmpty()) {
+                    for (pokemon in evolutionLine) {
+                        val pokemonData = when (pokemon.lowercase(Locale.ROOT)) {
+                            "nidoran♀" -> localDataSource.getPokemonEvolution("nidoran-f")
+                                .toDomain()
 
-        return pokemonList
+                            "nidoran♂" -> localDataSource.getPokemonEvolution("nidoran-m")
+                                .toDomain()
+
+                            else -> localDataSource.getPokemonEvolution(pokemon.lowercase(Locale.ROOT))
+                                .toDomain()
+                        }
+                        if (pokemonData != null) {
+                            pokemonList.add(pokemonData)
+                        }
+                    }
+                }
+            }
+
+            return pokemonList
+
+        } catch (ex: PokemonFetchException) {
+            throw PokemonFetchException("An error occurred while fetching Pokemon evolution tree")
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

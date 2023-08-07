@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
         viewModel.getAllPokemon()
         setupRecyclerView()
         requestData()
-        setlistener()
+        setListener()
     }
 
     override fun onResume() {
@@ -94,7 +94,6 @@ class HomeFragment : Fragment() {
                 when (response) {
                     is ResponseViewState.Success -> {
                         response.data?.let {
-                            Log.d("***Home", it.toString())
                             adapter.updatePokemon(it)
                         }
                         binding.llLoadingPokemons.visibility = View.GONE
@@ -116,7 +115,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setlistener() {
+    private fun setListener() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
 
@@ -124,7 +123,6 @@ class HomeFragment : Fragment() {
                 searchThroughDatabase(newText)
                 return true
             }
-
         })
         binding.floatButtonMenu.setOnClickListener {
             setVisibility(isClicked)
