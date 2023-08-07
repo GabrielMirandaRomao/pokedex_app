@@ -94,7 +94,6 @@ class HomeFragment : Fragment() {
                 when (response) {
                     is ResponseViewState.Success -> {
                         response.data?.let {
-                            Log.d("***Home", it.toString())
                             adapter.updatePokemon(it)
                         }
                         binding.llLoadingPokemons.visibility = View.GONE
@@ -124,7 +123,6 @@ class HomeFragment : Fragment() {
                 searchThroughDatabase(newText)
                 return true
             }
-
         })
         binding.floatButtonMenu.setOnClickListener {
             setVisibility(isClicked)

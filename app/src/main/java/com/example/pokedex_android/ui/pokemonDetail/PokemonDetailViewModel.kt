@@ -36,10 +36,6 @@ class PokemonDetailViewModel @Inject constructor(
         }
     }
 
-    fun getPokemonImage(name: String): String{
-        return getAllPokemonDevUseCase.getPokemonImage(name)
-    }
-
     fun getPokemonEvolutionLine(name: String) {
         viewModelScope.launch {
             _pokemonEvolutionLine.value = getAllPokemonDevUseCase.getPokemonEvolutionLine(name)

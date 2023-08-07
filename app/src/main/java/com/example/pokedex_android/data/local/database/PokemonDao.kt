@@ -31,9 +31,6 @@ interface PokemonDao {
     @Query("SELECT * FROM pokemon_table WHERE isFavorite == 1")
     fun getAllFavoritePokemon(): LiveData<List<PokemonEntity>>
 
-    @Query("SELECT imageUrl FROM pokemon_table WHERE name == :name")
-    fun getPokemonImage(name: String) : String
-
     @Query("SELECT * FROM pokemon_table WHERE name == :name")
     fun getPokemonEvolution(name: String) : PokemonEntity
 

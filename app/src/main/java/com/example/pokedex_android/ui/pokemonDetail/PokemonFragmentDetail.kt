@@ -20,6 +20,7 @@ import com.example.pokedex_android.ui.MainActivity
 import com.example.pokedex_android.R
 import com.example.pokedex_android.databinding.FragmentPokemonDetailsBinding
 import com.example.pokedex_android.ui.adapter.PokemonEvolutionAdapter
+import com.example.pokedex_android.ui.state.ResponseViewState
 import com.example.pokedex_android.util.setTypeBackground
 import com.example.pokedex_android.util.setTypeBackgroundDarker
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,7 @@ class PokemonFragmentDetail() : Fragment() {
                 setTypeBackground(args.pokemonInfo.types[0].name)
             )
         )
+        binding.llLoadingPokemons.visibility = View.VISIBLE
         addObserve()
         setViewsContents()
         setListener()
@@ -147,8 +149,11 @@ class PokemonFragmentDetail() : Fragment() {
 
         viewModel.getPokemonEvolutionLine(args.pokemonInfo.name)
 
-        viewModel.pokemonEvolutionLine.observe(viewLifecycleOwner) {
-            adapter.updateEvolutionLine(it)
+        viewModel.pokemonEvolutionLine.observe(viewLifecycleOwner) { response ->
+            if(response.isNotEmpty()){
+                binding.llLoadingPokemons.visibility = View.GONE
+                adapter.updateEvolutionLine(response)
+            }
         }
     }
 }
