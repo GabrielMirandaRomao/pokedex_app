@@ -64,7 +64,6 @@ class PokemonRepository @Inject constructor(
             val response: Response<PokedevResponse> = when (name) {
                 "nidoran-f" -> remoteDatasource.getPokemonDev("nidoran\u2640")
                 "nidoran-m" -> remoteDatasource.getPokemonDev("nidoran\u2642")
-                "eevee" -> remoteDatasource.getPokemonDev(name)
                 else -> remoteDatasource.getPokemonDev(name)
             }
 

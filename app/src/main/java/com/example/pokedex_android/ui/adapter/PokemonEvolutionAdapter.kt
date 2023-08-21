@@ -1,5 +1,6 @@
 package com.example.pokedex_android.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,14 +25,16 @@ class PokemonEvolutionAdapter(): RecyclerView.Adapter<PokemonEvolutionAdapter.Po
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         holder.binding.apply {
-            tvPokemonName.text = pokemonData[position].name
-
             cvEvolution.setTypeColor(pokemonData[position].types[0].name)
 
             Glide.with(holder.itemView)
                 .load(pokemonData[position].imageUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivFormDefault)
+        }
+
+        holder.itemView.setOnClickListener {
+            Log.d("***Teste evo", pokemonData[position].name )
         }
     }
 
